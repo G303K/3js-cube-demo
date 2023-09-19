@@ -1,14 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3JS Demo</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <h1>3JS Cube Demo</h1>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2/1/2/TweenMax.min.js"></script>
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+
+    <script>
+      // Create a Three.js scene
+      var scene = new THREE.Scene();
+
+      // Create a camera
+      var camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.z = 5;
+
+      // Create a WebGL renderer
+      var renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setClearColor("#e5e5e5");
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // Append the renderer's DOM element to the HTML body
+      document.body.appendChild(renderer.domElement);
+
+      // Handle window resize
+      window.addEventListener("resize", () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      });
+
+      // Create a raycaster and mouse vector
+      var raycaster = new THREE.Raycaster();
+      var mouse = new THREE.Vector2();
+
+      // Create cube geometry and material
+      var geometry = new THREE.BoxGeometry(1, 1, 1);
+      var material = new THREE.MeshLambertMaterial({ color: 0xf7f7f7 });
+
+      // Create multiple cubes
+      var numCubes = 30; // Adjust the number of cubes as needed
+
+      for (var i = 0; i < numCubes; i++) {
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = (Math.random() - 0.5) * 10;
+        mesh.position.y = (Math.random() - 0.5) * 10;
+        mesh.position.z = (Math.random() - 0.5) * 10;
+        scene.add(mesh);
+      }
+
+      // Create point lights
+      var light = new THREE.PointLight(0xffffff, 1, 1000);
+      light.position.set(0, 0, 0);
+      scene.add(light);
+
+      var light = new THREE.PointLight(0xffffff, 2, 1000);
+      light.position.set(0, 0, 25);
+      scene.add(light);
+
+      // Render function
+      var render = function () {
+        requestAnimationFrame(render);
+        renderer.render(scene, camera);
+      };
+
+      // Handle mouse movement
+      function onMouseMove(event) {
+        event.preventDefault();
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+
+        var intersects = raycaster.intersectObjects(scene.children, true);
+        for (var i = 0; i < intersects.length; i++) {
+          var cube = intersects[i].object;
+
+          var direction = Math.random() > 0.5 ? 1 : -1; // Randomly choose left or right
+          var distance = direction * 1; // Adjust the distance as needed
+
+          this.tl = new TimelineMax();
+          this.tl.to(cube.position, 0.5, {
+            x: cube.position.x + distance,
+            ease: Expo.easeOut,
+          });
+        }
+      }
+
+      // Start rendering
+      render();
+
+      // Listen for mouse movement
+      window.addEventListener("mousemove", onMouseMove);
+    </script>
+  </body>
 </html>

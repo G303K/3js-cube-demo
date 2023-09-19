@@ -1,0 +1,34 @@
+/* Reset margin and set the body height to 100% of the viewport height */
+body {
+  margin: 0;
+  height: 100vh;
+}
+
+/* Ensure the canvas element is displayed as a block-level element */
+canvas {
+  display: block;
+}
+
+/* Style for the heading (h1) element */
+h1 {
+  /* Position the heading absolutely at the top-left corner with a 2em offset */
+  position: absolute;
+  top: 2em;
+  left: 2em;
+
+  /* Set the font family to 'Montserrat' */
+  font-family: "Montserrat";
+
+  /* Set the font size to 7em */
+  font-size: 7em;
+
+  /* Transform the text to uppercase */
+  text-transform: uppercase;
+
+  /* Adjust the line height for spacing and add a border */
+  line-height: 0.8em;
+  border: 5px solid black;
+
+  /* Add padding for spacing within the heading */
+  padding: 0.2em;
+}
