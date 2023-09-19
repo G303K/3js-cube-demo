@@ -23,7 +23,7 @@ This is a demo application of a landing page using three.js. The application wil
 generate cubes on screen that will react to the users mouse movements.
 
 ## Deployed application
-- https://g303k.github.io/Module-6-Challenge/
+- https://g303k.github.io/3js-cube-demo/
 
 ![3js demo](https://github.com/G303K/Module-6-Challenge/assets/139593153/61fc2225-4db0-493d-9a82-5c0e206e59af)
 
